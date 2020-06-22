@@ -1,0 +1,40 @@
+PODS:
+  - Alamofire (4.9.1)
+  - naveridlogin-sdk-ios (4.1.1)
+  - PryntTrimmerView (4.0.0)
+  - SnapKit (5.0.1)
+  - SteviaLayout (4.7.3)
+  - SwiftyJSON (5.0.0)
+  - YPImagePicker (4.2.0):
+    - PryntTrimmerView (~> 4.0.0)
+    - SteviaLayout (~> 4.7.3)
+
+DEPENDENCIES:
+  - Alamofire
+  - naveridlogin-sdk-ios
+  - SnapKit (~> 5.0.0)
+  - SwiftyJSON
+  - YPImagePicker
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - naveridlogin-sdk-ios
+    - PryntTrimmerView
+    - SnapKit
+    - SteviaLayout
+    - SwiftyJSON
+    - YPImagePicker
+
+SPEC CHECKSUMS:
+  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  naveridlogin-sdk-ios: ec62eeccdcdca7b9b1de50a28710ace2ac8f78dc
+  PryntTrimmerView: 67e67573ffd4c073f1308effa66aefd0cfa667a0
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
+  SteviaLayout: c2ecdcff57d44e38fd2f65e54ad52aeae28ca0c4
+  SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
+  YPImagePicker: accf310f9526641a84372c0ecf943547d9b1e52c
+
+PODFILE CHECKSUM: f57b11489bc5d0f56dcd0e6d842e04c16c8a039a
+
+COCOAPODS: 1.9.0
