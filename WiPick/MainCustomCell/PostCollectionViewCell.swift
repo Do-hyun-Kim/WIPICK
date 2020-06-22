@@ -8,7 +8,14 @@
 
 import UIKit
 
-class PostCollectionViewCell: UICollectionViewCell {
+class PostCollectionViewCell: UICollectionViewCell,UITableViewDelegate,UITableViewDataSource {
+    
+   
+    
+    
+   
+    @IBOutlet weak var PostImageTableView: UITableView!
+    @IBOutlet weak var TestImage: UIImageView!
     @IBOutlet weak var PostBackView: UIView!
     @IBOutlet weak var Post_Title: UILabel!
     @IBOutlet weak var Post_created: UILabel!
@@ -27,8 +34,6 @@ class PostCollectionViewCell: UICollectionViewCell {
         self.layer.masksToBounds = false
         self.layer.shadowOpacity = 0.23
         self.layer.shadowRadius = 4
-        
-        
         Post_content.isUserInteractionEnabled = true
         Post_content.isEditable = false
 //        self.Post_UserProfile.frame = CGRect(x: 20, y: 0, width: 80, height: 80)
@@ -50,6 +55,46 @@ class PostCollectionViewCell: UICollectionViewCell {
         self.PostBackView.layer.shadowPath = UIBezierPath(roundedRect: self.PostBackView.bounds, cornerRadius: 10).cgPath
         self.PostBackView.layer.shouldRasterize = true
         self.PostBackView.layer.rasterizationScale = UIScreen.main.scale
+        self.PostImageTableView.register(UINib(nibName: "PostImageTableViewCell", bundle: nil), forCellReuseIdentifier: "PostTableCell")
+//     self.PostImageCollectionView.register(UINib(nibName: "PostImageCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "PostCollectionCell")
+        self.PostImageTableView.delegate = self
+        self.PostImageTableView.dataSource = self
+        
     }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+           return 1
+       }
+       
+       func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let ImageCell = tableView.dequeueReusableCell(withIdentifier: "PostTableCell", for: indexPath) as? PostImageTableViewCell
+        
+        return ImageCell!
+       }
+    
+    
+    
+    
 
 }
+
+
+//
+//extension PostCollectionViewCell  : UICollectionViewDataSource {
+//    
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        return 4
+//    }
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let PostImageCell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostImageCell", for: indexPath) as? PostImageCollectionViewCell
+//        
+//        
+//     
+//        
+//        
+//        
+//        return PostImageCell!
+//    }
+//    
+//    
+//}

@@ -40,16 +40,15 @@ class LoginViewController: UIViewController,NaverThirdPartyLoginConnectionDelega
     "Accept" : "application/json"]
     public var kakaoUserInfo = KakaoUserInfo()
     public var naverUserInfo = NaverUserInfo()
-    
+    let NaverloginInstance = NaverThirdPartyLoginConnection.getSharedInstance()
     @IBOutlet weak var NaverButton: UIButton!
-    public let loginInstance = NaverThirdPartyLoginConnection.getSharedInstance()
     @IBAction func KakaoLogin(_ sender: Any) {
         kakaoLogin(sender)
     }
     
     @IBAction func NaverLogin(_ sender: AnyObject) {
-        loginInstance?.delegate = self
-        loginInstance?.requestThirdPartyLogin()
+        NaverloginInstance?.delegate = self
+        NaverloginInstance?.requestThirdPartyLogin()
         
     }
 
@@ -64,14 +63,17 @@ class LoginViewController: UIViewController,NaverThirdPartyLoginConnectionDelega
     
     //NaverLogin
      func NaverInfo(){
-        guard let tokenType = loginInstance?.tokenType else { return }
-        guard let accessToken = loginInstance?.accessToken else { return }
+        guard let loginInstance = NaverThirdPartyLoginConnection.getSharedInstance() else { return  }
+        
+        guard let tokenType = loginInstance.tokenType else { return }
+        guard let accessToken = loginInstance.accessToken else { return }
         let urlStr = "https://openapi.naver.com/v1/nid/me"
         let url = URL(string: urlStr)!
         KeychainToken.save(AppBundle, account: "Naver Token", value:accessToken)
         let authorization = "\(tokenType) \(accessToken)"
-        
-        let req = Alamofire.request("https://openapi.naver.com/v1/nid/me", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : authorization])
+        var header = [String: String]()
+        header["Authorization"] = "Bearer \(accessToken)"
+        let req = Alamofire.request("https://openapi.naver.com/v1/nid/me", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: header)
         req.responseJSON { (response) in
             guard let result = response.result.value as? [String : Any] else  {return}
             guard let object = result["response"] as? [String: Any] else { return }
@@ -136,7 +138,7 @@ class LoginViewController: UIViewController,NaverThirdPartyLoginConnectionDelega
             "WIPICK_Email" : self.naverUserInfo.NaverUserId
         ]
                  
-        self.WIPICK_APP_CHECK_POST(url: "http://172.30.1.10:8002/WIPICK_POST_APP_CHECK", method: .post, paramter: Parameter, headers: self.MuliteHeaders, uploadImage: self.naverUserInfo.NaverUserProfile!)
+        self.WIPICK_APP_CHECK_POST(url: "http://172.30.1.29:8002/WIPICK_POST_APP_CHECK", method: .post, paramter: Parameter, headers: self.MuliteHeaders, uploadImage: self.naverUserInfo.NaverUserProfile!)
         let RootViewController = UIStoryboard(name: "Main", bundle: nil)
         let MainVC = RootViewController.instantiateViewController(identifier: "RootViewController")
         MainVC.modalPresentationStyle = .fullScreen
@@ -161,7 +163,7 @@ class LoginViewController: UIViewController,NaverThirdPartyLoginConnectionDelega
     }
     
     func oauth20ConnectionDidFinishDeleteToken() {
-        loginInstance?.requestDeleteToken()
+        NaverloginInstance?.requestDeleteToken()
         
     }
     
@@ -237,9 +239,10 @@ class LoginViewController: UIViewController,NaverThirdPartyLoginConnectionDelega
                             UserDefaults.standard.set(self.kakaoUserInfo.UserName, forKey: "NickName")
                             UserDefaults.standard.set(self.kakaoUserInfo.UserProfile, forKey: "Profile")
                             
-                            let urlStr = "http://172.30.1.10:8002/v2/user/me"
+                            let urlStr = "http://172.30.1.29:8002/v2/user/me"
                             let url = URL(string: urlStr)!
                             let authorization = session.token?.accessToken
+                            //요기부분 보기
                             let req = Alamofire.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : authorization!])
                                 req.responseJSON { (response) in
                                     print("Kakao Login response 값 입니다 (NaverInfo func): \(response.result.value)")
@@ -252,7 +255,7 @@ class LoginViewController: UIViewController,NaverThirdPartyLoginConnectionDelega
                                 "WIPICK_Email" : self.kakaoUserInfo.UserId
                                ]
                             
-                            self.WIPICK_APP_CHECK_POST(url: "http://172.30.1.10:8002/WIPICK_POST_APP_CHECK", method: .post, paramter: Parameter, headers: self.MuliteHeaders, uploadImage: self.kakaoUserInfo.UserProfile!)
+                            self.WIPICK_APP_CHECK_POST(url: "http://172.30.1.29:8002/WIPICK_POST_APP_CHECK", method: .post, paramter: Parameter, headers: self.MuliteHeaders, uploadImage: self.kakaoUserInfo.UserProfile!)
                                 //self.kakaoUserInfo.UserProfile!
                             
                             }

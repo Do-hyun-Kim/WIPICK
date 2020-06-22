@@ -37,7 +37,7 @@ class CategoryViewController: UIViewController,UICollectionViewDelegate,UICollec
 //        self.CategoryCollectionLayout()
         guard let DataBinding = CategoryData else { return }
         var paramter : Parameters = ["Category" : "\(DataBinding)"]
-        self.WIPCIK_CATEGORY_CONTENT(url: "http://172.30.1.10:8002/WIPICK_CATEGORY_POST/\(DataBinding)", method: .get, paramter: paramter, headers: headers)
+        self.WIPCIK_CATEGORY_CONTENT(url: "http://172.30.1.29:8002/WIPICK_CATEGORY_POST/\(DataBinding)", method: .get, paramter: paramter, headers: headers)
         self.CategoryCollectionView.delegate = self
         self.CategoryCollectionView.dataSource = self
         self.CategoryCollectionView.register(UINib(nibName: "CategoryCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "CategoryCell")
@@ -87,12 +87,12 @@ class CategoryViewController: UIViewController,UICollectionViewDelegate,UICollec
         }
     
         //ContentImage DB
-        if self.CategoryConfigure.WIPICK_Category_IMG[indexPath.row] == nil {
+        if self.CategoryConfigure.WIPICK_Category_IMG[indexPath.row] == "" {
             CategoryCell?.CategoryImg.isHidden = true
         }else{
-            let ImageURL : URL = URL(string: self.CategoryConfigure.WIPICK_Category_IMG[indexPath.row]!)!
-            let ImageData : Data = try! Data(contentsOf: ImageURL)
-            CategoryCell?.CategoryImg.image = UIImage(data: ImageData)?.resizeImage(size: CGSize(width: (CategoryCell?.frame.size.width)!, height: (CategoryCell?.CategoryImg.frame.size.height)!))
+//            let ImageURL : URL = URL(string: self.CategoryConfigure.WIPICK_Category_IMG[indexPath.row]!)!
+//            let ImageData : Data = try! Data(contentsOf: ImageURL)
+//            CategoryCell?.CategoryImg.image = UIImage(data: ImageData)?.resizeImage(size: CGSize(width: (CategoryCell?.frame.size.width)!, height: (CategoryCell?.CategoryImg.frame.size.height)!))
         }
         
         
