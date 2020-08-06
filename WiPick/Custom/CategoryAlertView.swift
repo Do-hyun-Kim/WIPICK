@@ -12,7 +12,44 @@ import Alamofire
 
 
 
+enum state {
+    case Confirm
+    case Cancel
+}
 
+
+
+
+@IBDesignable extension CategoryAlertView {
+    @IBInspectable var borderColor: UIColor? {
+        set {
+            layer.borderColor = newValue?.cgColor
+        }
+        get {
+            guard let color = layer.borderColor else {
+                return nil
+            }
+            return UIColor(cgColor: color)
+        }
+    }
+    @IBInspectable var borderWidth: CGFloat {
+        set {
+            layer.borderWidth = newValue
+        }
+        get {
+            return layer.borderWidth
+        }
+    }
+    @IBInspectable var cornerRadius: CGFloat {
+        set {
+            layer.cornerRadius = newValue
+            clipsToBounds = newValue > 0
+        }
+        get {
+            return layer.cornerRadius
+        }
+    }
+}
 
 
 class CategoryAlertView: UIView,UICollectionViewDataSource,UICollectionViewDelegate {
@@ -21,6 +58,10 @@ class CategoryAlertView: UIView,UICollectionViewDataSource,UICollectionViewDeleg
     @IBOutlet weak var CategoryAlertTitle: UILabel!
     @IBOutlet weak var CategoryAlertNaviBar: UIView!
     @IBOutlet weak var CategoryAlertImg: UIImageView!
+    @IBOutlet weak var CategoryAlerPostLabel: UILabel!
+    @IBOutlet weak var CategoryConfirmButtom: UIButton!
+    weak var PostDeailVC : PostDetailViewController?
+    var CategoryTitle = ""
     var CategoryData = ""
     let Category = ["Kotiln","Swift","C++","JAVA","JS","C#","Ionic","Python"]
     var selected: Bool {
@@ -31,6 +72,8 @@ class CategoryAlertView: UIView,UICollectionViewDataSource,UICollectionViewDeleg
             _ = true
         }
     }
+    
+    
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -47,6 +90,8 @@ class CategoryAlertView: UIView,UICollectionViewDataSource,UICollectionViewDeleg
     override func layoutSubviews() {
         self.initCollectionView()
         self.CustomAlertLayout()
+        
+        self.CategoryConfirmButtom.addTarget(self, action: #selector(self.ConfirmAction), for: .touchUpInside)
     }
     
     
@@ -75,7 +120,33 @@ class CategoryAlertView: UIView,UICollectionViewDataSource,UICollectionViewDeleg
         self.CategoryAlertImg.image = UIImage(named: "category4.png")
         self.CategoryAlertImg.contentMode = .scaleAspectFit
         self.CategoryAlertNaviBar.backgroundColor = UIColor(red: 255/255, green: 101/255, blue: 83/255, alpha: 1.0)
+        self.CategoryAlertNaviBar.layer.shadowOffset = CGSize(width: 1, height: 8)
+        self.CategoryAlertNaviBar.layer.shadowColor = UIColor.gray.cgColor
+        self.CategoryAlertNaviBar.layer.shadowOpacity = 10.0
+        self.CategoryAlertNaviBar.layer.shadowRadius = 10.0
+        self.CategoryAlertNaviBar.layer.masksToBounds = false
         
+        self.CategoryAlerPostLabel.text = "* 한 가지 카테고리를 선택하세요"
+        self.CategoryAlerPostLabel.textColor = UIColor.systemPink
+        self.CategoryAlerPostLabel.font = UIFont.systemFont(ofSize: 11)
+        self.CategoryConfirmButtom.setTitle("확인", for: .normal)
+        self.CategoryConfirmButtom.tintColor = UIColor.black
+        self.CategoryAlertNaviBar.layer.cornerRadius = 10.0
+        self.CategoryParentView.layer.cornerRadius = 20.0
+        self.CategoryConfirmButtom.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight(rawValue: 1.0))
+        
+    }
+    
+    @objc func ConfirmAction(){
+        self.removeFromSuperview()
+    }
+    
+    @objc func CancelAction(){
+        self.removeFromSuperview()
+    }
+    
+    //Auto Laoyout Code
+    public func AlertButtonLayout(){
         
     }
     
@@ -98,34 +169,12 @@ class CategoryAlertView: UIView,UICollectionViewDataSource,UICollectionViewDeleg
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let CategorySelectCell = collectionView.cellForItem(at: indexPath) as? CategoryDetailCollectionViewCell {
-            switch indexPath.item {
-            case MainCategory.KotilnCategory.rawValue:
-                CategorySelectCell.CategoryTitle.layer.borderColor = UIColor(red: 249/255, green: 1/255, blue: 203/255, alpha: 1.0).cgColor
-                CategorySelectCell.CategoryTitle.setTitleColor(UIColor(red: 249/255, green: 1/255, blue: 203/255, alpha: 1.0), for: .normal)
-            case MainCategory.SwiftCategory.rawValue:
-                CategorySelectCell.CategoryTitle.layer.borderColor = UIColor(red: 249/255, green: 1/255, blue: 203/255, alpha: 1.0).cgColor
-                CategorySelectCell.CategoryTitle.setTitleColor(UIColor(red: 249/255, green: 1/255, blue: 203/255, alpha: 1.0), for: .normal)
-            case MainCategory.C_PlusCategory.rawValue:
-                CategorySelectCell.CategoryTitle.layer.borderColor = UIColor(red: 249/255, green: 1/255, blue: 203/255, alpha: 1.0).cgColor
-                CategorySelectCell.CategoryTitle.setTitleColor(UIColor(red: 249/255, green: 1/255, blue: 203/255, alpha: 1.0), for: .normal)
-            case MainCategory.JavaCategory.rawValue:
-                CategorySelectCell.CategoryTitle.layer.borderColor = UIColor(red: 249/255, green: 1/255, blue: 203/255, alpha: 1.0).cgColor
-                CategorySelectCell.CategoryTitle.setTitleColor(UIColor(red: 249/255, green: 1/255, blue: 203/255, alpha: 1.0), for: .normal)
-            case MainCategory.JavaScriptCategory.rawValue:
-                CategorySelectCell.CategoryTitle.layer.borderColor = UIColor(red: 249/255, green: 1/255, blue: 203/255, alpha: 1.0).cgColor
-                CategorySelectCell.CategoryTitle.setTitleColor(UIColor(red: 249/255, green: 1/255, blue: 203/255, alpha: 1.0), for: .normal)
-            case MainCategory.C_symbolsCategory.rawValue :
-                CategorySelectCell.CategoryTitle.layer.borderColor = UIColor(red: 249/255, green: 1/255, blue: 203/255, alpha: 1.0).cgColor
-                CategorySelectCell.CategoryTitle.setTitleColor(UIColor(red: 249/255, green: 1/255, blue: 203/255, alpha: 1.0), for: .normal)
-            case MainCategory.IonicCategory.rawValue :
-                CategorySelectCell.CategoryTitle.layer.borderColor = UIColor(red: 249/255, green: 1/255, blue: 203/255, alpha: 1.0).cgColor
-                CategorySelectCell.CategoryTitle.setTitleColor(UIColor(red: 249/255, green: 1/255, blue: 203/255, alpha: 1.0), for: .normal)
-            case MainCategory.PythonCategory.rawValue :
-                CategorySelectCell.CategoryTitle.layer.borderColor = UIColor(red: 249/255, green: 1/255, blue: 203/255, alpha: 1.0).cgColor
-                CategorySelectCell.CategoryTitle.setTitleColor(UIColor(red: 249/255, green: 1/255, blue: 203/255, alpha: 1.0), for: .normal)
-            default:
-                CategorySelectCell.CategoryTitle.layer.borderColor = UIColor.lightGray.cgColor
-                CategorySelectCell.CategoryTitle.setTitleColor(UIColor.lightGray, for: .normal)
+            if CategorySelectCell.CategoryTitle.isSelected == false {
+                self.CategoryAlerPostLabel.text = "* 한 가지 카테고리만 선택하실수 있습니다."
+                self.CategoryTitle = CategorySelectCell.CategoryTitle.titleLabel!.text!
+                self.CategoryAlerPostLabel.textColor = UIColor.red
+                
+                self.PostDeailVC?.onConfirmUserAction(Confirmdata: self.CategoryTitle)
             }
         }
     }
@@ -142,7 +191,7 @@ class CategoryAlertView: UIView,UICollectionViewDataSource,UICollectionViewDeleg
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         
-        return UIEdgeInsets(top: 0, left: 50, bottom: 0, right: 50)
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
     

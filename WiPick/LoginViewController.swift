@@ -31,51 +31,73 @@ struct NaverUserInfo {
 
 //키체인 시큐리티 코딩
 let KeychainToken = TokenUtils()
- let AppBundle = Bundle.main.bundleIdentifier
-
+let AppBundle = Bundle.main.bundleIdentifier
 class LoginViewController: UIViewController,NaverThirdPartyLoginConnectionDelegate{
     let uuid = NSUUID().uuidString.lowercased()
     public var headers: HTTPHeaders = ["Accept" : "application/json"]
     public var MuliteHeaders : HTTPHeaders = ["Content-type": "multipart/form-data",
-    "Accept" : "application/json"]
+                                              "Accept" : "application/json"]
     public var kakaoUserInfo = KakaoUserInfo()
     public var naverUserInfo = NaverUserInfo()
     let NaverloginInstance = NaverThirdPartyLoginConnection.getSharedInstance()
     @IBOutlet weak var NaverButton: UIButton!
-    @IBAction func KakaoLogin(_ sender: Any) {
+    @IBOutlet weak var kakaobutton : KOLoginButton?
+    @IBAction func KakaoLogin(_ sender: AnyObject) {
         kakaoLogin(sender)
     }
     
     @IBAction func NaverLogin(_ sender: AnyObject) {
         NaverloginInstance?.delegate = self
         NaverloginInstance?.requestThirdPartyLogin()
-        
+        self.NaverInfo()
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.tokenRefreshMillis(token: KeychainToken.load(AppBundle, account: "Kakao Token")!)
         print("token 정보 입니다\(KeychainToken.load(AppBundle, account: "Kakao Token"))")
-        
+        self.LoginViewButtonFrame()
         
     }
     
-    //NaverLogin
-     func NaverInfo(){
-        guard let loginInstance = NaverThirdPartyLoginConnection.getSharedInstance() else { return  }
+    func LoginViewButtonFrame(){
         
-        guard let tokenType = loginInstance.tokenType else { return }
-        guard let accessToken = loginInstance.accessToken else { return }
+        NaverButton.snp.makeConstraints { (make) in
+            make.left.equalTo(self.view).offset(46)
+            make.right.equalTo(self.view).offset(-46)
+            make.width.equalTo(320)
+            make.height.equalTo(40)
+            make.bottom.equalTo(kakaobutton!.snp.top).offset(-35)
+        }
+        kakaobutton!.snp.makeConstraints { (make) in
+            make.left.equalTo(self.view).offset(46)
+            make.right.equalTo(self.view).offset(-46)
+            make.width.equalTo(320)
+            make.height.equalTo(40)
+            make.bottom.equalTo(self.view).offset(-70)
+        }
+    }
+    
+    //NaverLogin
+    func NaverInfo(){
+        
+        guard let isValidAccessToken = NaverloginInstance?.isValidAccessTokenExpireTimeNow() else { return }
+        
+        if !isValidAccessToken {
+          return
+        }
+        
+        
+        guard let tokenType = NaverloginInstance?.tokenType else { return }
+        guard let accessToken = NaverloginInstance?.accessToken else { return }
         let urlStr = "https://openapi.naver.com/v1/nid/me"
         let url = URL(string: urlStr)!
         KeychainToken.save(AppBundle, account: "Naver Token", value:accessToken)
         let authorization = "\(tokenType) \(accessToken)"
-        var header = [String: String]()
-        header["Authorization"] = "Bearer \(accessToken)"
-        let req = Alamofire.request("https://openapi.naver.com/v1/nid/me", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: header)
+        let req = Alamofire.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization": authorization])
         req.responseJSON { (response) in
-            guard let result = response.result.value as? [String : Any] else  {return}
+            guard let result = response.value as? [String : Any] else  {return}
             guard let object = result["response"] as? [String: Any] else { return }
             guard let name = object["name"] as? String else { return }
             guard let email = object["email"] as? String else { return }
@@ -85,29 +107,28 @@ class LoginViewController: UIViewController,NaverThirdPartyLoginConnectionDelega
             self.naverUserInfo.NaverUserName = name // Naver 사용자 이름
             self.naverUserInfo.NaverUserProfile = Profile //Naver 사용자 Profile
             self.naverUserInfo.NaverUserId = email // Naver 사용자 email
+            UserDefaults.standard.set(self.naverUserInfo.NaverUserName, forKey: "NickName")
+            UserDefaults.standard.set(self.naverUserInfo.NaverUserProfile, forKey: "NaverProfile")
         }
         print("네이버 네임\(self.naverUserInfo.NaverUserName)")
         print("네이버 프로필\(self.naverUserInfo.NaverUserProfile)")
         print("네이버 이메일\(self.naverUserInfo.NaverUserId)")
-                   
-                   
-        UserDefaults.standard.set(self.naverUserInfo.NaverUserName, forKey: "NickName")
-        UserDefaults.standard.set(self.naverUserInfo.NaverUserProfile, forKey: "NaverProfile")
-                                            
+        
     }
     
     private func WIPICK_APP_CHECK_POST(url : String, method : HTTPMethod, paramter : Parameters ,headers : HTTPHeaders, uploadImage : String){
-    Alamofire.upload( multipartFormData: { (multipartFormData) in
-        let UploadData = UIImage(named: uploadImage)
-        let data = UploadData?.jpegData(compressionQuality: 1.0)
-    for (key, value) in paramter {
-        multipartFormData.append((value as! String).data(using: String.Encoding.utf8)!, withName: key)
-    }
-        if let ImageData = data {
-        multipartFormData.append(ImageData, withName: "image", fileName: "image.jpeg", mimeType: "image/jpeg")
-        }
-
-    }, usingThreshold: UInt64.init(), to: url, method: .post, headers: headers) { (result) in
+        
+        Alamofire.upload( multipartFormData: { (multipartFormData) in
+            let UploadData = UIImage(named: uploadImage)
+            let data = UploadData?.jpegData(compressionQuality: 1.0)
+            for (key, value) in paramter {
+                multipartFormData.append((value as! String).data(using: String.Encoding.utf8)!, withName: key)
+            }
+            if let ImageData = data {
+                multipartFormData.append(ImageData, withName: "image", fileName: "image.jpeg", mimeType: "image/jpeg")
+            }
+            
+        }, usingThreshold: UInt64.init(), to: url, method: .post, headers: headers) { (result) in
             switch result{
             case .success(let upload, _, _):
                 upload.responseJSON { response in
@@ -121,12 +142,12 @@ class LoginViewController: UIViewController,NaverThirdPartyLoginConnectionDelega
                 }
             case .failure(let error):
                 print("Error in upload 로그: \(error.localizedDescription)")
-
+                
                 Error?(error)
             }
         }
     }
-  
+    
     
     
     func oauth20ConnectionDidFinishRequestACTokenWithAuthCode() {
@@ -137,8 +158,8 @@ class LoginViewController: UIViewController,NaverThirdPartyLoginConnectionDelega
             "profile" : self.naverUserInfo.NaverUserProfile,
             "WIPICK_Email" : self.naverUserInfo.NaverUserId
         ]
-                 
-        self.WIPICK_APP_CHECK_POST(url: "http://172.30.1.29:8002/WIPICK_POST_APP_CHECK", method: .post, paramter: Parameter, headers: self.MuliteHeaders, uploadImage: self.naverUserInfo.NaverUserProfile!)
+        
+        //        self.WIPICK_APP_CHECK_POST(url: "http://172.30.1.29:8002/WIPICK_POST_APP_CHECK", method: .post, paramter: Parameter, headers: self.MuliteHeaders, uploadImage: self.naverUserInfo.NaverUserProfile!)
         let RootViewController = UIStoryboard(name: "Main", bundle: nil)
         let MainVC = RootViewController.instantiateViewController(identifier: "RootViewController")
         MainVC.modalPresentationStyle = .fullScreen
@@ -155,7 +176,7 @@ class LoginViewController: UIViewController,NaverThirdPartyLoginConnectionDelega
         let MainVC = RootViewController.instantiateViewController(identifier: "RootViewController")
         MainVC.modalPresentationStyle = .fullScreen
         self.present(MainVC, animated: true, completion: nil)
-//        self.NaverButton.isHidden = true
+        //        self.NaverButton.isHidden = true
         //요기는 토큰 재갱신 할때 사용할 코드 작성
         //다시 naver Info뷰 뜨게 하면됨 메모장 확인
         
@@ -225,50 +246,50 @@ class LoginViewController: UIViewController,NaverThirdPartyLoginConnectionDelega
                             print("카카오 로그인 사용자 토큰 입니다\(String(describing: session.token?.accessToken))")
                         }
                         // Profile Image URL 시큐어 코딩
-                if let Profile = user?.profileImageURL?.absoluteString {
+                        if let Profile = user?.profileImageURL?.absoluteString {
                             //Kakako UserInfoProfile DB Setting
                             //KakaoUserInfoNickName DB Setting
                             //KakaoUserInfoEmail DB Setting
-                    if let NickName = user?.nickname {
-                        if let UserId = user?.account?.email {
-                            self.kakaoUserInfo.UserProfile = Profile
-                            self.kakaoUserInfo.UserName = NickName
-                            self.kakaoUserInfo.UserId = UserId
-                            self.kakaoUserInfo.UserToken = session.token?.accessToken
-                            //UserDefault로 간단하게 NickName저장 추후 서버 데이터와 비교
-                            UserDefaults.standard.set(self.kakaoUserInfo.UserName, forKey: "NickName")
-                            UserDefaults.standard.set(self.kakaoUserInfo.UserProfile, forKey: "Profile")
-                            
-                            let urlStr = "http://172.30.1.29:8002/v2/user/me"
-                            let url = URL(string: urlStr)!
-                            let authorization = session.token?.accessToken
-                            //요기부분 보기
-                            let req = Alamofire.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : authorization!])
-                                req.responseJSON { (response) in
-                                    print("Kakao Login response 값 입니다 (NaverInfo func): \(response.result.value)")
+                            if let NickName = user?.nickname {
+                                if let UserId = user?.account?.email {
+                                    self.kakaoUserInfo.UserProfile = Profile
+                                    self.kakaoUserInfo.UserName = NickName
+                                    self.kakaoUserInfo.UserId = UserId
+                                    self.kakaoUserInfo.UserToken = session.token?.accessToken
+                                    //UserDefault로 간단하게 NickName저장 추후 서버 데이터와 비교
+                                    UserDefaults.standard.set(self.kakaoUserInfo.UserName, forKey: "NickName")
+                                    UserDefaults.standard.set(self.kakaoUserInfo.UserProfile, forKey: "Profile")
+                                    
+                                    let urlStr = "http://192.168.8.103:8002/v2/user/me"
+                                    let url = URL(string: urlStr)!
+                                    let authorization = session.token?.accessToken
+                                    //요기부분 보기
+                                    let req = Alamofire.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : authorization!])
+                                    req.responseJSON { (response) in
+                                        print("Kakao Login response 값 입니다 (NaverInfo func): \(response.value)")
+                                    }
+                                    
+                                    var Parameter : Parameters = [
+                                        "provider" : "\(self.uuid)",
+                                        "WIPICK_ID" : self.kakaoUserInfo.UserName,
+                                        "profile" : self.kakaoUserInfo.UserProfile,
+                                        "WIPICK_Email" : self.kakaoUserInfo.UserId
+                                    ]
+                                    
+                                    self.WIPICK_APP_CHECK_POST(url: "http://172.30.1.55:8002/WIPICK_POST_APP_CHECK", method: .post, paramter: Parameter, headers: self.MuliteHeaders, uploadImage: self.kakaoUserInfo.UserProfile!)
+                                    //self.kakaoUserInfo.UserProfile!
+                                    
                                 }
-                            
-                            var Parameter : Parameters = [
-                                "provider" : "\(self.uuid)",
-                                "WIPICK_ID" : self.kakaoUserInfo.UserName,
-                                "profile" : self.kakaoUserInfo.UserProfile,
-                                "WIPICK_Email" : self.kakaoUserInfo.UserId
-                               ]
-                            
-                            self.WIPICK_APP_CHECK_POST(url: "http://172.30.1.29:8002/WIPICK_POST_APP_CHECK", method: .post, paramter: Parameter, headers: self.MuliteHeaders, uploadImage: self.kakaoUserInfo.UserProfile!)
-                                //self.kakaoUserInfo.UserProfile!
-                            
                             }
                         }
                     }
-                }
-
-
+                    
+                    
                     let RootViewController = UIStoryboard(name: "Main", bundle: nil)
                     let MainVC = RootViewController.instantiateViewController(identifier: "RootViewController")
                     MainVC.modalPresentationStyle = .fullScreen
                     self.present(MainVC, animated: true, completion: nil)
-
+                    
                 } else {
                     print("Login failed")
                 }
@@ -295,13 +316,13 @@ class LoginViewController: UIViewController,NaverThirdPartyLoginConnectionDelega
 
 
 /*
-카카오 세션 유지
-자동 로그인으로 앱이 종료 및 백그라운드에 같다 꺼지는 현상을 막을것인지
-세션을 유지해서 앱의 종료 및 백그라운드 및 꺼지는 현상을 막을 것인지
-자동 로그인은 UserDefaults 를 사용하여 id,email 저장
-세션 유지는 HttpCooikeStroage를 사용하여 세션 유지
-kakao login webview를 사용 해서 Cookie 및 별도 세션 유지 함수 처리 구문 추가
-*/
+ 카카오 세션 유지
+ 자동 로그인으로 앱이 종료 및 백그라운드에 같다 꺼지는 현상을 막을것인지
+ 세션을 유지해서 앱의 종료 및 백그라운드 및 꺼지는 현상을 막을 것인지
+ 자동 로그인은 UserDefaults 를 사용하여 id,email 저장
+ 세션 유지는 HttpCooikeStroage를 사용하여 세션 유지
+ kakao login webview를 사용 해서 Cookie 및 별도 세션 유지 함수 처리 구문 추가
+ */
 
 
 extension HTTPCookieStorage {
@@ -314,22 +335,22 @@ extension HTTPCookieStorage {
         }
     }
     static func save(){
-            var cookies = [Any]()
-            if let newCookies = HTTPCookieStorage.shared.cookies {
-                for newCookie in newCookies {
-                    var cookie = [HTTPCookiePropertyKey : Any]()
-                    cookie[.name]  =  newCookie.name
-                    cookie[.value] = newCookie.value
-                    cookie[.domain] = newCookie.domain
-                    cookie[.path] = newCookie.path
-                    cookie[.version] = newCookie.version
-                    if let date = newCookie.expiresDate {
-                        cookie[.expires] = date
-                    }
-                    cookies.append(cookie)
+        var cookies = [Any]()
+        if let newCookies = HTTPCookieStorage.shared.cookies {
+            for newCookie in newCookies {
+                var cookie = [HTTPCookiePropertyKey : Any]()
+                cookie[.name]  =  newCookie.name
+                cookie[.value] = newCookie.value
+                cookie[.domain] = newCookie.domain
+                cookie[.path] = newCookie.path
+                cookie[.version] = newCookie.version
+                if let date = newCookie.expiresDate {
+                    cookie[.expires] = date
                 }
-                UserDefaults.standard.setValue(cookies, forKey: "cookies")
-                UserDefaults.standard.synchronize()
+                cookies.append(cookie)
+            }
+            UserDefaults.standard.setValue(cookies, forKey: "cookies")
+            UserDefaults.standard.synchronize()
         }
     }
     static func restore(){

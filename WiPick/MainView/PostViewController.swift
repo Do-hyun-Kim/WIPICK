@@ -57,7 +57,7 @@ class PostViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        WIPICK_PHOTO_WITHCONTENT_GET(url: "http://172.30.1.29:8002/WIPICK_GET_PHOTOWITH_CONTENT", method: .get, header: headers)
+        WIPICK_PHOTO_WITHCONTENT_GET(url: "http://192.168.8.103:8002/WIPICK_GET_PHOTOWITH_CONTENT", method: .get, header: headers)
 //        PostCollectionView.delegate = self
 //        PostCollectionView.dataSource = self
 //        PostCollectionView.register(UINib(nibName: "PostCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "PostCell")

@@ -56,6 +56,7 @@
 		D170A0BE23FD7DB0009F06F4 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D170A0BD23FD7DAF009F06F4 /* CategoryViewController.swift */; };
 		D170A0C123FD8402009F06F4 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D170A0BF23FD8402009F06F4 /* CategoryCollectionViewCell.swift */; };
 		D170A0C223FD8402009F06F4 /* CategoryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D170A0C023FD8402009F06F4 /* CategoryCollectionViewCell.xib */; };
+		D17F2B8B24B3950300F05F20 /* CategoryAttach.png in Resources */ = {isa = PBXBuildFile; fileRef = D17F2B8A24B3950300F05F20 /* CategoryAttach.png */; };
 		D1EE39AE23C49D4F009BF3D7 /* SingleToneServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EE39AD23C49D4F009BF3D7 /* SingleToneServer.swift */; };
 		D1EE39B123C4A4DD009BF3D7 /* PostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EE39AF23C4A4DD009BF3D7 /* PostCollectionViewCell.swift */; };
 		D1EE39B223C4A4DD009BF3D7 /* PostCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D1EE39B023C4A4DD009BF3D7 /* PostCollectionViewCell.xib */; };
@@ -179,6 +180,7 @@
 		D170A0BD23FD7DAF009F06F4 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		D170A0BF23FD8402009F06F4 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		D170A0C023FD8402009F06F4 /* CategoryCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryCollectionViewCell.xib; sourceTree = "<group>"; };
+		D17F2B8A24B3950300F05F20 /* CategoryAttach.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CategoryAttach.png; sourceTree = "<group>"; };
 		D1EE39AD23C49D4F009BF3D7 /* SingleToneServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleToneServer.swift; sourceTree = "<group>"; };
 		D1EE39AF23C4A4DD009BF3D7 /* PostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionViewCell.swift; sourceTree = "<group>"; };
 		D1EE39B023C4A4DD009BF3D7 /* PostCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -469,6 +471,7 @@
 				D154E73823A66EDE00EA1D05 /* Search.png */,
 				D1FB776523A64A5C00453AA7 /* java.png */,
 				D1FB776623A64A5C00453AA7 /* js.png */,
+				D17F2B8A24B3950300F05F20 /* CategoryAttach.png */,
 				D1FB777023A64CBA00453AA7 /* c#.png */,
 				D1FB776E23A64BEE00453AA7 /* ionic.png */,
 				D1EF7C2A2408C3DF00E7AB64 /* BackgroundImage3.png */,
@@ -615,6 +618,7 @@
 				D1EF7C89240FF84700E7AB64 /* PostTableViewCell.xib in Resources */,
 				D1EF7C292408C1E400E7AB64 /* BackgroundImage2.jpg in Resources */,
 				D1EF7C95241230E500E7AB64 /* CookieRun Bold.otf in Resources */,
+				D17F2B8B24B3950300F05F20 /* CategoryAttach.png in Resources */,
 				D1F91D0823AFC55C00BD0F94 /* NaverLogin.PNG in Resources */,
 				D1FB776823A64A5C00453AA7 /* c++png.png in Resources */,
 				D1EF7C9D2417F93800E7AB64 /* CategoryDetailCollectionViewCell.xib in Resources */,
@@ -974,7 +978,7 @@
 					"$(PROJECT_DIR)/WiPick",
 				);
 				INFOPLIST_FILE = WiPick/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1002,7 +1006,7 @@
 					"$(PROJECT_DIR)/WiPick",
 				);
 				INFOPLIST_FILE = WiPick/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

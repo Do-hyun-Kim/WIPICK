@@ -41,7 +41,7 @@ class UserViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         self.UserPostTableView.delegate = self
         self.UserPostTableView.dataSource = self
         //WIPICK SERVER CODE
-        self.WIPICK_APP_CHECK_GET(url: "http://172.30.1.29:8002/WIPICK_APP_CHECK_GET", method: .get, header: self.GetHeader)
+        self.WIPICK_APP_CHECK_GET(url: "http://192.168.8.103:8002/WIPICK_APP_CHECK_GET", method: .get, header: self.GetHeader)
         self.setUserLayout()
         
         //이미지 Tab event시 webProfile 호출 기능 넣을지 고민
@@ -56,7 +56,7 @@ class UserViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         super.viewWillAppear(true)
         self.navigationController?.isNavigationBarHidden = true
         //Kakao DB NickName 조회
-        self.WIPICK_APP_CHECK_GET(url: "http://172.30.1.29:8002/WIPICK_APP_CHECK_GET", method: .get, header: self.GetHeader)
+        self.WIPICK_APP_CHECK_GET(url: "http://172.30.1.55:8002/WIPICK_APP_CHECK_GET", method: .get, header: self.GetHeader)
         
         
     }
@@ -227,7 +227,7 @@ class UserViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     
     private func WIPICK_APP_POST_Follwing(WIPICK_ID : String, method : HTTPMethod){
-        let FollwingURL : String = "http://172.30.1.29:8002/"+WIPICK_ID+"/follow"
+        let FollwingURL : String = "http://172.30.1.55:8002/"+WIPICK_ID+"/follow"
         Alamofire.request(FollwingURL, method: .post, encoding: URLEncoding.default)
             .responseJSON { (response) in
                 print(response.result.error)

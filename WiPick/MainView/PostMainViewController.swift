@@ -176,7 +176,7 @@ class PostMainViewController: UIViewController,UITextViewDelegate,UITableViewDel
 //        self.WIPICK_COMMENT_POST(url: "http://172.30.1.5:8002/WIPICK_COMMENT_POST/\(CommentID)" , method: .post, paramter: parameters, headers: Postheaders)
 
         
-        self.WIPICK_COMMENT_GET(url: "http://172.30.1.29:8002/WIPICK_COMMENT_GET/\(CommentID)", method: .get, headers: GetHeaders)
+        self.WIPICK_COMMENT_GET(url: "http://172.30.1.55:8002/WIPICK_COMMENT_GET/\(CommentID)", method: .get, headers: GetHeaders)
     }
     
     

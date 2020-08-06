@@ -57,7 +57,7 @@ class PostTableViewCell: UITableViewCell {
         self.ImageCollectionView.register(UINib(nibName: "ImageCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ImageCell")
         self.ImageCollectionView.delegate = self
         self.ImageCollectionView.dataSource = self
-        WIPICK_PHOTO_ARRAYCONTENT_GET(url: "http://172.30.1.29:8002/WIPICK_GET_PHOTOWITH_CONTENT", method: .get, header: headers)
+        WIPICK_PHOTO_ARRAYCONTENT_GET(url: "http://192.168.8.103:8002/WIPICK_GET_PHOTOWITH_CONTENT", method: .get, header: headers)
         print("이미지 wipick_image입니다 \(self.cellconfigure.WIPICK_IMG)")
         // Initialization code
     }

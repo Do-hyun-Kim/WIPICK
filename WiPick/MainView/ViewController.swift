@@ -136,6 +136,8 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
     
     lazy var ProfileImageButton : UIButton = {
            let ProfileLigthButton = UIButton(type: .custom)
+            
+        
                let Profile = UserDefaults.standard.string(forKey: "Profile")
                if let ProfileURL = Profile {
                    let BinderUrl : URL = URL(string: ProfileURL)!

@@ -2,6 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>naversearchapp</string>
+		<string>naversearchthirdlogin</string>
+	</array>
 	<key>AppIdentifierPrefix</key>
 	<string>$(AppIdentifierPrefix)</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -29,18 +34,12 @@
 			</array>
 			<key>LSApplicationQueriesSchemes</key>
 			<array>
-                <!-- 공통 -->
-                <string>kakao3ab11dd78bc577aff33f4d36dad52ec5</string>
-                <!-- 카카오로그인 -->
-                <string>kakaokompassauth</string>
-                <string>storykompassauth</string>
-                <!-- 카카오링크 -->
-                <string>kakaolink</string>
-                <string>kakaotalk-5.9.7</string>
-                <!-- 카카오스토리링크 -->
-                <string>storylink</string>
-                
-                <!-- 네이버로그인 -->
+				<string>kakao3ab11dd78bc577aff33f4d36dad52ec5</string>
+				<string>kakaokompassauth</string>
+				<string>storykompassauth</string>
+				<string>kakaolink</string>
+				<string>kakaotalk-5.9.7</string>
+				<string>storylink</string>
 				<string>naversearchapp</string>
 				<string>naversearchthirdlogin</string>
 			</array>
@@ -54,6 +53,14 @@
 			<array>
 				<string>naverlogin</string>
 			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string></string>
+			<key>CFBundleURLSchemes</key>
+			<array/>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>

@@ -10,7 +10,7 @@ PODS:
     - SteviaLayout (~> 4.7.3)
 
 DEPENDENCIES:
-  - Alamofire
+  - Alamofire (~> 4.9.1)
   - naveridlogin-sdk-ios
   - SnapKit (~> 5.0.0)
   - SwiftyJSON
@@ -35,6 +35,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   YPImagePicker: accf310f9526641a84372c0ecf943547d9b1e52c
 
-PODFILE CHECKSUM: f57b11489bc5d0f56dcd0e6d842e04c16c8a039a
+PODFILE CHECKSUM: 62e85a21b494883ca8ffe4ece152df454f08c0b5
 
 COCOAPODS: 1.9.0

@@ -37,7 +37,7 @@ class CategoryViewController: UIViewController,UICollectionViewDelegate,UICollec
 //        self.CategoryCollectionLayout()
         guard let DataBinding = CategoryData else { return }
         var paramter : Parameters = ["Category" : "\(DataBinding)"]
-        self.WIPCIK_CATEGORY_CONTENT(url: "http://172.30.1.29:8002/WIPICK_CATEGORY_POST/\(DataBinding)", method: .get, paramter: paramter, headers: headers)
+        self.WIPCIK_CATEGORY_CONTENT(url: "http://192.168.8.103:8002/WIPICK_CATEGORY_POST/\(DataBinding)", method: .get, paramter: paramter, headers: headers)
         self.CategoryCollectionView.delegate = self
         self.CategoryCollectionView.dataSource = self
         self.CategoryCollectionView.register(UINib(nibName: "CategoryCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "CategoryCell")

@@ -65,6 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let instance = NaverThirdPartyLoginConnection.getSharedInstance()
         
         instance?.isNaverAppOauthEnable = true
+        instance?.isInAppOauthEnable = true
         instance?.isOnlyPortraitSupportedInIphone()
         instance?.serviceUrlScheme = kServiceAppUrlScheme
         instance?.consumerKey = kConsumerKey

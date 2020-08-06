@@ -11,7 +11,18 @@ import UIKit
 class CategoryDetailCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var CategoryTitle: UIButton!
-    
+    override var isSelected: Bool {
+        didSet {
+            if isSelected {
+                self.CategoryTitle.layer.borderColor = UIColor(red: 249/255, green: 1/255, blue: 203/255, alpha: 1.0).cgColor
+                self.CategoryTitle.setTitleColor(UIColor(red: 249/255, green: 1/255, blue: 203/255, alpha: 1.0), for: .normal)
+               
+            } else {
+                self.CategoryTitle.layer.borderColor = UIColor.lightGray.cgColor
+                self.CategoryTitle.setTitleColor(UIColor.lightGray, for: .normal)
+            }
+        }
+    }
     var ButtonTap : Bool?
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -22,3 +33,4 @@ class CategoryDetailCollectionViewCell: UICollectionViewCell {
         
     }
 }
+

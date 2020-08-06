@@ -16,17 +16,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nkG-MH-wh8" customClass="KOLoginButton">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nkG-MH-wh8">
                                 <rect key="frame" x="50" y="776" width="320" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
-                                    <action selector="KakaoLogin:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Wcp-f5-i8e"/>
+                                    <action selector="KakaoLogin:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Am3-XN-7gc"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HCV-27-5UU">
                                 <rect key="frame" x="50" y="691" width="320" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button" image="NaverLogin.PNG"/>
                                 <connections>
                                     <action selector="NaverLogin:" destination="BYZ-38-t0r" eventType="touchUpInside" id="d2G-Z7-sbF"/>
@@ -39,6 +39,7 @@
                     <navigationItem key="navigationItem" id="UgZ-dD-kjY"/>
                     <connections>
                         <outlet property="NaverButton" destination="HCV-27-5UU" id="51z-Zn-WfF"/>
+                        <outlet property="kakaobutton" destination="nkG-MH-wh8" id="0cN-Xf-sGI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -260,7 +261,7 @@
         <!--Category View Controller-->
         <scene sceneID="5qp-NJ-heb">
             <objects>
-                <viewController id="bTC-0E-xPY" customClass="CategoryViewController" customModule="WiPick" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CategoryView" id="bTC-0E-xPY" customClass="CategoryViewController" customModule="WiPick" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Lh8-M4-xcj">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -382,6 +383,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xBq-QS-8mr">
+                                <rect key="frame" x="0.0" y="74" width="414" height="788"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <viewLayoutGuide key="contentLayoutGuide" id="Mb4-6m-XYq"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="OXr-7J-PTV"/>
+                            </scrollView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d2m-Y8-KJu">
                                 <rect key="frame" x="20" y="121" width="45" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -449,6 +456,13 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <items>
                                     <navigationItem title="Title" id="kPb-v4-aRo">
+                                        <barButtonItem key="leftBarButtonItem" style="plain" id="vvM-ro-5vD">
+                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="DPv-Ns-iqB">
+                                                <rect key="frame" x="20" y="7" width="46" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" title="Button"/>
+                                            </button>
+                                        </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" style="plain" id="j17-tg-6ZM">
                                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="hbG-6N-TvD">
                                                 <rect key="frame" x="354" y="7" width="40" height="30"/>
@@ -460,12 +474,8 @@
                             </navigationBar>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F88-Im-q2k">
                                 <rect key="frame" x="0.0" y="466" width="414" height="314"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qHT-yF-wi0">
-                                <rect key="frame" x="348" y="176" width="46" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="aN8-79-9Tj"/>
@@ -473,7 +483,7 @@
                     <navigationItem key="navigationItem" id="LU3-zZ-za1"/>
                     <connections>
                         <outlet property="Post_DetailAttachCategory" destination="OaD-Q0-xEc" id="iyQ-Kg-z2A"/>
-                        <outlet property="Post_DetailAttachCategoryUP" destination="qHT-yF-wi0" id="EU2-b9-2Dp"/>
+                        <outlet property="Post_DetailBackBtn" destination="DPv-Ns-iqB" id="5fD-nU-3wJ"/>
                         <outlet property="Post_DetailCategory" destination="Eoo-zM-Rr7" id="Vqj-2O-IfG"/>
                         <outlet property="Post_DetailCategoryLine" destination="cEq-dm-ghL" id="o44-RV-xct"/>
                         <outlet property="Post_DetailCategoryText" destination="UfH-kB-5xU" id="nAV-fo-Xjm"/>
